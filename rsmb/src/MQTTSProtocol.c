@@ -327,7 +327,7 @@ int MQTTSProtocol_handleConnects(void* pack, int sock, char* clientAddr, Clients
 	else
 	{
 		list = Socket_getParentListener(sock);
-		if (list->max_connections > -1 &&
+		if (list && list->max_connections > -1 &&
 				list->connections->count > list->max_connections)
 		{
 			/* TODO: why is this commented out? delete if not needed
@@ -472,7 +472,8 @@ int MQTTSProtocol_handleConnects(void* pack, int sock, char* clientAddr, Clients
 	if (existingClient)
 		MQTTProtocol_processQueued(client);
 
-	Log(LOG_INFO, 0, "Client connected to udp port %d from %s (%s)", list->port, client->clientID, clientAddr);
+	if (list)
+		Log(LOG_INFO, 0, "Client connected to udp port %d from %s (%s)", list->port, client->clientID, clientAddr);
 
 	MQTTSPacket_free_packet(pack);
 	time( &(client->lastContact) );
