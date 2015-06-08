@@ -1224,19 +1224,19 @@ int MQTTSPacket_send_willMsg(Clients* client)
 	int rc, len;
 
 	FUNC_ENTRY;
-	len = strlen(client->will->msg);
+	len = client->will ? strlen(client->will->msg) : 0;
 
 	ptr = buf = malloc(len);
 
 	packet.header.type = MQTTS_WILLMSG;
 	packet.header.len = len+2;
 
-	memcpy(ptr, client->will->msg, len);
+	if (len > 0) { memcpy(ptr, client->will->msg, len); }
 
 	rc = MQTTSPacket_send(client, packet.header, buf, len);
 	free(buf);
 
-	Log(LOG_PROTOCOL, 48, NULL, client->socket, client->addr, client->clientID, client->will->msg, rc);
+	Log(LOG_PROTOCOL, 48, NULL, client->socket, client->addr, client->clientID, client->will ? client->will->msg : "", rc);
 	FUNC_EXIT_RC(rc);
 	return rc;
 }
