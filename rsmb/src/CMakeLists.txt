@@ -11,6 +11,8 @@ set(SOURCES ${SOURCES} Clients.c LinkedList.c MQTTPacket.c MQTTProtocolClient.c 
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Os -g")
 
+configure_file(Messages.1.3.0.2 Messages.1.3.0.2 COPYONLY)
+
 add_executable(broker_mqtts ${SOURCES})
 target_compile_definitions(broker_mqtts PRIVATE -DMQTTS)
 install(TARGETS broker_mqtts RUNTIME DESTINATION ${BINDIR} LIBRARY DESTINATION ${LIBDIR})
