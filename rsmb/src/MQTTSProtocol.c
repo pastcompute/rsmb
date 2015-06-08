@@ -304,6 +304,7 @@ int MQTTSProtocol_handleAdvertises(void* pack, int sock, char* clientAddr, Clien
 	timeinfo = localtime(&ts.time);
 
 	listener = Socket_getParentListener(sock);
+	if (listener) {
 
 	topic = malloc(40);
 	sprintf(topic, "$SYS/broker/mqtts/listener/%d", listener->port);
@@ -318,6 +319,7 @@ int MQTTSProtocol_handleAdvertises(void* pack, int sock, char* clientAddr, Clien
 
 	free(topic);
 	free(data);
+	}
 	FUNC_EXIT;
 	return 0;
 }
